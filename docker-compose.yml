@@ -1,0 +1,28 @@
+version: '3'
+services:
+  toggles-db:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASS}
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    container_name: toggles-db
+    volumes: 
+      - ./scripts/pg-init.sql:/docker-entrypoint-initdb.d/pg-init.sql
+    networks:
+      - skynet
+  cashback-db:
+    image: store/oracle/database-enterprise:12.2.0.1
+    environment:
+      DB_PASSWD: oracle
+    ports:
+      - ${ORACLE_PORT}:1521
+      - ${ORACLE_PORT2}:5500
+    container_name: cashback-db
+    volumes:
+      - ./scripts/ora-init.sql:/docker-entrypoint-initdb.d/ora-init.sql
+    networks:
+      - skynet
+networks:
+  skynet:
+      driver: bridge
