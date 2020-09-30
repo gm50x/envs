@@ -1,3 +1,5 @@
+create schema cashback;
+
 create table cashback.extrato (
     id bigserial primary key,
     cpf varchar(11) not null,
